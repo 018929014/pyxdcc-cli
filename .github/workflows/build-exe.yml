@@ -34,6 +34,11 @@ jobs:
     - name: Remove obsolete typing backport
       run: python -m pip uninstall -y typing
 
+    - name: List files
+      shell: pwsh
+      run: |
+        Get-ChildItem -Recurse
+
     - name: Build EXE with PyInstaller
       run: |
         pyinstaller --onefile pyxdcc/pyxdcc-cli.py
