@@ -41,7 +41,7 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --onefile pyxdcc/pyxdcc-cli.py
+        pyinstaller --onefile pyxdcc/pyxdcc.py
 
     - name: Verify EXE was built
       run: |
