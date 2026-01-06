@@ -70,26 +70,17 @@ def _play_video_worker(selected_result, tmp_dir):
     """Worker function for playing video. Must be at module level for multiprocessing."""
     file_path = os.path.join(tmp_dir, selected_result.filename)
     
-    # Wait for file to exist
-    while not os.path.exists(file_path):
-        time.sleep(0.25)
+    # Wait for file to exist (should be immediate since download is already done)
+    max_wait = 30  # seconds
+    elapsed = 0
+    while not os.path.exists(file_path) and elapsed < max_wait:
+        time.sleep(0.1)
+        elapsed += 0.1
     
-    # Wait for file to be fully downloaded by checking if file size is stable
-    last_size = 0
-    stable_count = 0
-    while stable_count < 5:  # Check 5 times that size hasn't changed
-        try:
-            current_size = os.path.getsize(file_path)
-            if current_size == last_size:
-                stable_count += 1
-            else:
-                stable_count = 0
-            last_size = current_size
-            time.sleep(0.5)
-        except OSError:
-            time.sleep(0.5)
-    
-    play_video_file(file_path)
+    if os.path.exists(file_path):
+        play_video_file(file_path)
+    else:
+        print(Fore.RED + Style.BRIGHT + f"File not found: {file_path}" + Style.RESET_ALL)
 
 
 def main():
