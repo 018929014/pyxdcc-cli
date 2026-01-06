@@ -1,0 +1,63 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: ['3.11']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        pip install -r requirements.txt
+        pip install pyinstaller
+
+    - name: Build EXE with PyInstaller
+      run: |
+        pyinstaller pyxdcc-cli.spec
+
+    - name: Verify EXE was built
+      run: |
+        if (Test-Path "dist/pyxdcc-cli.exe") {
+          Write-Host "✓ EXE built successfully"
+          Get-Item dist/pyxdcc-cli.exe | Format-List Length
+        } else {
+          Write-Error "EXE build failed"
+          exit 1
+        }
+
+    - name: Upload EXE artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: pyxdcc-cli-${{ matrix.python-version }}-windows
+        path: dist/pyxdcc-cli.exe
+        if-no-files-found: error
+
+    - name: Create GitHub Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/pyxdcc-cli.exe
+        draft: false
+        prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

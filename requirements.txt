@@ -1,0 +1,5 @@
+xdcc-dl==5.2.1
+irc>=20.5.0
+pyfzf==0.3.1
+urllib3<2.0.0
+colorama==0.4.6
