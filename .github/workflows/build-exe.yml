@@ -31,6 +31,9 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
+    - name: Remove obsolete typing backport
+      run: python -m pip uninstall -y typing
+
     - name: Build EXE with PyInstaller
       run: |
         pyinstaller pyxdcc-cli.spec
