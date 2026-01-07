@@ -5,7 +5,7 @@ a = Analysis(
     ['pyxdcc\\pyxdcc.py'],
     pathex=[],
     binaries=[],
-    datas=[('.venv/Lib/site-packages/irc/*','irc')],
+    datas=[('D:\\a\\pyxdcc-cli\\pyxdcc-cli\\.build-env\\Lib\\site-packages\\irc\\*','irc')],
     hiddenimports=['xdcc_dl.pack_search','xdcc_dl.xdcc','xdcc_dl.xdcc.exceptions'],
     hookspath=[],
     hooksconfig={},
