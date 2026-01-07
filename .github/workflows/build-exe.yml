@@ -30,7 +30,7 @@ jobs:
         cache-dependency-glob: "uv.lock"
 
     - name: Sync dependencies
-      run: uv sync --locked
+      run: uv sync
       shell: pwsh
 
     - name: Remove obsolete typing backport
