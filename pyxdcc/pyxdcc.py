@@ -1,3 +1,4 @@
+import multiprocessing
 from xdcc_dl.pack_search import SearchEngines
 from xdcc_dl.xdcc import XDCCClient
 from tempfile import TemporaryDirectory
@@ -307,4 +308,5 @@ def main():
 
 
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
     main()

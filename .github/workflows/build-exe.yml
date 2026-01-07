@@ -25,24 +25,27 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
 
-    - name: Install dependencies
+    - name: Setup isolated build environment
       run: |
+        python -m venv .build-env
+        .\.build-env\Scripts\activate
         python -m pip install --upgrade pip setuptools wheel
         pip install -r requirements.txt
+        # Désinstaller typing si présent
+        pip uninstall -y typing || echo "typing not installed, ok"
+        # Installer PyInstaller et autres dépendances nécessaires
         pip install pyinstaller
-
-    - name: Remove obsolete typing backport
-      run: python -m pip uninstall -y typing
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --onefile pyxdcc/pyxdcc-cli.py
+        .\.build-env\Scripts\activate
+        pyinstaller pyxdcc.spec
 
     - name: Verify EXE was built
       run: |
-        if (Test-Path "dist/pyxdcc-cli.exe") {
+        if (Test-Path "dist/pyxdcc/pyxdcc.exe") {
           Write-Host "✓ EXE built successfully"
-          Get-Item dist/pyxdcc-cli.exe | Format-List Length
+          Get-Item dist/pyxdcc/pyxdcc.exe | Format-List Length
         } else {
           Write-Error "EXE build failed"
           exit 1
@@ -52,14 +55,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: pyxdcc-cli-${{ matrix.python-version }}-windows
-        path: dist/pyxdcc-cli.exe
-        if-no-files-found: error
+        path: dist/pyxdcc/*
 
     - name: Create GitHub Release (on tag)
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
       with:
-        files: dist/pyxdcc-cli.exe
+        files: dist/pyxdcc/*
         draft: false
         prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') }}
       env:
