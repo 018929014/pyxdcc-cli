@@ -25,16 +25,15 @@ jobs:
         
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel
-        pip install -r requirements.txt
-        pip install pyinstaller
+        python -m pip install --upgrade pip setuptools wheel uv
+        uv sync
 
     - name: Remove obsolete typing backport
-      run: python -m pip uninstall -y typing
+      run: uv pip uninstall -y typing
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --onedir pyxdcc/pyxdcc.py --add-data "C:\hostedtoolcache\windows\Python\3.11.9\x64\Lib\site-packages\irc;irc"
+        pyinstaller pyxdcc.spec
 
     - name: Verify EXE was built
       run: |
