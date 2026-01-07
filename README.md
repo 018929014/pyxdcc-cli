@@ -1,9 +1,4 @@
-pyxdcc-cli
-=====
-
-#### A cli interface for watching anime from xdcc inspired by [ani-cli](https://github.com/pystardust/ani-cli).
-
-## Changes from Parent Version
+## ⚠️ Changes from Parent Version
 
 This fork includes the following changes:
 
@@ -13,6 +8,15 @@ This fork includes the following changes:
 - **Enhanced Progress Display**: Colored progress bar with real-time download speed and percentage
 - **CI/CD Integration**: Added GitHub Actions workflow to automatically build Windows EXE releases on git tags
 
+Don't blame me for this repo, I just wanted to make something for myself and share it with the community.
+It doesn't respect any golden standard in terms of git flow and is a mess but at least it exist.
+If you want to get serious, well, consider using go instead lol
+
+
+pyxdcc-cli
+=====
+
+#### A cli interface for watching anime from xdcc inspired by [ani-cli](https://github.com/pystardust/ani-cli).
 
 ### Compatibility
 

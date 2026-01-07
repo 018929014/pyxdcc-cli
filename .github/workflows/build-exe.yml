@@ -3,9 +3,7 @@ name: Build Windows EXE
 on:
   push:
     branches:
-      - main
-    tags:
-      - 'v*'
+      - fix-ci-cd
   workflow_dispatch:
 
 jobs:
@@ -31,9 +29,7 @@ jobs:
         .\.build-env\Scripts\activate
         python -m pip install --upgrade pip setuptools wheel
         pip install -r requirements.txt
-        # Désinstaller typing si présent
         pip uninstall -y typing || echo "typing not installed, ok"
-        # Installer PyInstaller et autres dépendances nécessaires
         pip install pyinstaller
 
     - name: Build EXE with PyInstaller
