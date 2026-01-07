@@ -33,11 +33,8 @@ jobs:
       run: uv sync --locked
       shell: pwsh
 
-    - name: Check uv.lock
-      uses: hbelmiro/uv-lock-check@v1
-
     - name: Remove obsolete typing backport
-      run: uv pip uninstall -y typing
+      run: uv pip uninstall --y typing
       shell: pwsh
 
     - name: Build EXE with PyInstaller
