@@ -34,7 +34,9 @@ jobs:
       shell: pwsh
 
     - name: Remove obsolete typing backport
-      run: uv pip uninstall typing
+      run: |
+        uv pip uninstall typing
+        uv pip install pyinstaller
       shell: pwsh
 
     - name: Build EXE with PyInstaller
