@@ -36,7 +36,7 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --onefile pyxdcc/pyxdcc.py --add-data "C:\hostedtoolcache\windows\Python\3.11.9\x64\Lib\site-packages\irc;irc"
+        pyinstaller --onedir pyxdcc/pyxdcc.py --add-data "C:\hostedtoolcache\windows\Python\3.11.9\x64\Lib\site-packages\irc;irc"
 
     - name: Verify EXE was built
       run: |
