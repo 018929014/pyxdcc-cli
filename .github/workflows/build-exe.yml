@@ -23,16 +23,12 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
 
-    - name: Install UV
-      uses: astral-sh/setup-uv@v7
-      with:
-        enable-cache: true
-
     - name: Setup isolated build environment
       run: |
         python -m venv .build-env
         .\.build-env\Scripts\activate
         python -m pip install --upgrade pip setuptools wheel
+        pip install -r requirements.txt
         # Désinstaller typing si présent
         pip uninstall -y typing || echo "typing not installed, ok"
         # Installer PyInstaller et autres dépendances nécessaires
