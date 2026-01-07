@@ -16,33 +16,32 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
 
-    - name: Setup uv
+    - name: Install UV
       uses: astral-sh/setup-uv@v7
       with:
         enable-cache: true
-        cache-dependency-glob: "uv.lock"
 
-    - name: Sync dependencies
-      run: uv sync
-      shell: pwsh
-
-    - name: Remove obsolete typing backport
+    - name: Setup isolated build environment
       run: |
-        uv pip install pyinstaller
-        uv pip uninstall typing
-        D:\a\pyxdcc-cli\pyxdcc-cli\.venv\Scripts\python.exe -m pip uninstall typing
-      shell: pwsh
+        python -m venv .build-env
+        .\.build-env\Scripts\activate
+        python -m pip install --upgrade pip setuptools wheel
+        # Désinstaller typing si présent
+        pip uninstall -y typing || echo "typing not installed, ok"
+        # Installer PyInstaller et autres dépendances nécessaires
+        pip install pyinstaller
 
     - name: Build EXE with PyInstaller
-      run: uv run pyinstaller pyxdcc.spec
-      shell: pwsh
+      run: |
+        .\.build-env\Scripts\activate
+        pyinstaller pyxdcc.spec
 
     - name: Verify EXE was built
       run: |
@@ -53,7 +52,6 @@ jobs:
           Write-Error "EXE build failed"
           exit 1
         }
-      shell: pwsh
 
     - name: Upload EXE artifact
       uses: actions/upload-artifact@v4
