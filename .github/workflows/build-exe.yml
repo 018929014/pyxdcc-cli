@@ -37,7 +37,7 @@ jobs:
       run: |
         uv pip install pyinstaller
         uv pip uninstall typing
-        "D:\a\pyxdcc-cli\pyxdcc-cli\.venv\Scripts\python.exe" -m pip uninstall typing
+        D:\a\pyxdcc-cli\pyxdcc-cli\.venv\Scripts\python.exe -m pip uninstall typing
       shell: pwsh
 
     - name: Build EXE with PyInstaller
