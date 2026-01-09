@@ -1,3 +1,6 @@
+[![Bandit](https://github.com/018929014/pyxdcc-cli/actions/workflows/bandit.yml/badge.svg)](https://github.com/018929014/pyxdcc-cli/actions/workflows/bandit.yml)
+[![Build Windows EXE](https://github.com/018929014/pyxdcc-cli/actions/workflows/build-exe.yml/badge.svg)](https://github.com/018929014/pyxdcc-cli/actions/workflows/build-exe.yml)
+[![CodeQL](https://github.com/018929014/pyxdcc-cli/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/018929014/pyxdcc-cli/actions/workflows/github-code-scanning/codeql)
 ## ⚠️ Changes from Parent Version
 
 This fork includes the following changes:
